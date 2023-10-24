@@ -279,7 +279,7 @@
             complete: function (results) {
                 console.log(results.data);
                 results.data.forEach(row => {
-                    if (row['name'] || row['win_rate'] || row['avg_length']) {
+                    if (row['name']) {
                         let filter = row['filter'];
 
                         if ((communityRadio.checked) ||
@@ -290,6 +290,10 @@
                             const nameTd = document.createElement('td');
                             const winRateTd = document.createElement('td');
                             const lengthTd = document.createElement('td');
+                            const UE16 = document.createElement('td');
+                            const UE8 = document.createElement('td');
+                            const ELO16 = document.createElement('td');
+                            const ELO8 = document.createElement('td');
 
                             if (row['link'] && row['link'].trim() !== '') {
                                 const a = document.createElement('a');
@@ -312,10 +316,18 @@
 
                             winRateTd.textContent = Number(row['win_rate']).toFixed(2) + '%';
                             lengthTd.textContent = Math.round(Number(row['avg_length'])).toString() ;
+                            UE16.textContent = Number(row['Uni_Eval_16']).toFixed(2) + '%';
+                            UE8.textContent = Number(row['Uni_Eval_8']).toFixed(2) + '%';
+                            ELO16.textContent = Number(row['ELO_16']).toFixed(2) + '%';
+                            ELO8.textContent = Number(row['ELO_8']).toFixed(2) + '%';
 
                             tr.appendChild(nameTd);
                             tr.appendChild(winRateTd);
                             tr.appendChild(lengthTd);
+                            tr.appendChild(UE16);
+                            tr.appendChild(UE8);
+                            tr.appendChild(ELO8);
+                            tr.appendChild(ELO16);
 
                             table.appendChild(tr);
                         }
@@ -329,9 +341,7 @@
         let cautionText;
         if (evaluator === 'gpt4') {
             cautionText = 'GPT-4 may favor models with longer outputs and/or those that were fine-tuned on GPT-4 outputs.';
-        } else if (evaluator === 'claude') {
-            cautionText = 'Claude may favor models with longer outputs and/or those that were fine-tuned on Claude outputs.';
-        }
+        } 
         document.getElementById('caution').innerText = 'Caution: ' + cautionText;
     }
 
@@ -343,10 +353,6 @@
         updateCautionMessage('gpt4');
     });
 
-    // chatgptRadio.addEventListener('click', function () {
-    //     currentUrl = urls['chatgpt'];
-    //     updateTable(currentUrl);
-    // });
 
     communityRadio.addEventListener('click', function () {
         updateTable(currentUrl);
