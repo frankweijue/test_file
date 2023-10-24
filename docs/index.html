@@ -32,7 +32,7 @@
         }
 
         .container {
-            max-width: 700px;
+            max-width: 1000px;
             margin: auto;
         }
 
@@ -53,28 +53,28 @@
         }
 
         table {
-            max-width: 700px;
+            max-width: 1000px;
             width: 100%;
             table-layout: fixed;
             margin: auto;
             font-size: 1em;
         }
-
+        
         table th,
         table td {
             padding: 6px;
-            word-wrap: break-word;
+            word-wrap: normal;
             vertical-align: middle;
         }
-
+        
         table th {
             border-bottom: 2px solid #000;
         }
 
         th:first-child,
         td:first-child {
-            width: 70%;
-            padding-left: 30px;
+            width: 45%;
+            padding-left: 10px;
             text-align: left;
         }
 
@@ -83,35 +83,28 @@
             text-align: right;
             padding-right: 10px;
         }
-
-        th:last-child,
-        td:last-child {
-            width: 15%;
-            padding-right: 30px;
-        }
-
-        th {
-            text-align: right;
-            padding-bottom: 15px;
-        }
-
-        td {
-            padding-bottom: 10px;
-        }
-
-        #leaderboard tr th:nth-child(3) {
-            color: #999999;  /* or any other color that you want */
-        }
-        #leaderboard tr td:nth-child(3) {
-            color: #999999;  /* or any other color that you want */
-        }
-
         table tr:nth-child(even) {
             background-color: #E8E8E8;
         }
 
         table tr:nth-child(odd) {
             background-color: #F8F8F8;
+        }
+        
+        /* 表头样式 */
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        /* 奇偶行背景色 */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        /* 鼠标悬停样式 */
+        tr:hover {
+            background-color: #ccc;
         }
 
         .switch-toggle {
@@ -279,8 +272,8 @@
             complete: function (results) {
                 console.log(results.data);
                 results.data.forEach(row => {
-                    if (row['name']) {
-                        let filter = row['filter'];
+                    if (row['Model']) {
+                        let filter = row['Filter'];
 
                         if ((communityRadio.checked) ||
                             (verifiedRadio.checked && (filter === 'verified' || filter === 'minimal')) ||
@@ -295,27 +288,20 @@
                             const ELO16 = document.createElement('td');
                             const ELO8 = document.createElement('td');
 
-                            if (row['link'] && row['link'].trim() !== '') {
+                            if (row['Link'] && row['Link'].trim() !== '') {
                                 const a = document.createElement('a');
-                                a.textContent = row['name'];
-                                a.href = row['link'];
+                                a.textContent = row['Model'];
+                                a.href = row['Link'];
                                 a.target = "_blank";
                                 nameTd.appendChild(a);
                             } else {
-                                nameTd.textContent = row['name'];
+                                nameTd.textContent = row['Model'];
                             }
 
-                            if (row['samples'] && row['samples'].trim() !== '') {
-                                const samplesLink = document.createElement('a');
-                                samplesLink.textContent = " 📄"; // adding a space before emoji to separate from name
-                                samplesLink.href = row['samples'];
-                                samplesLink.target = "_blank";
-                                samplesLink.style.textDecoration = "none";
-                                nameTd.appendChild(samplesLink);
-                            }
+    
 
-                            winRateTd.textContent = Number(row['win_rate']).toFixed(2) + '%';
-                            lengthTd.textContent = Math.round(Number(row['avg_length'])).toString() ;
+                            winRateTd.textContent = Number(row['Win_Tie_Rate']).toFixed(2) + '%';
+                            lengthTd.textContent = Math.round(Number(row['Length'])).toString() ;
                             UE16.textContent = Number(row['Uni_Eval_16']).toFixed(2) + '%';
                             UE8.textContent = Number(row['Uni_Eval_8']).toFixed(2) + '%';
                             ELO16.textContent = Number(row['ELO_16']).toFixed(2) + '%';
