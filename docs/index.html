@@ -19,7 +19,7 @@
     </script>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="icon" href="BotChat.png">
+    <link rel="icon" href="botchat_logo.jpg">
     <link href="https://cdn.jsdelivr.net/css-toggle-switch/latest/toggle-switch.css" rel="stylesheet"/>
 
     <style>
@@ -91,18 +91,6 @@
             background-color: #F8F8F8;
         }
         
-        /* 表头样式 */
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        
-        /* 奇偶行背景色 */
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        
-        /* 鼠标悬停样式 */
         tr:hover {
             background-color: #ccc;
         }
@@ -145,6 +133,11 @@
         .toggle-line .switch-toggle {
             margin: 0 10px;
         }
+
+        #documentation {
+            width: 800px; 
+            margin: 0 auto; 
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
@@ -155,7 +148,7 @@
 
         <h1>BotChat
             <a href="https://github.com/open-compass/BotChat">
-                <img src="BotChat.png"
+                <img src="botchat_logo.jpg"
                      alt="Logo" style="height: 2em; vertical-align: middle;"></a>
             Leaderboard
         </h1>
@@ -194,12 +187,12 @@
     <table id="leaderboard">
         <tr>
             <th>Model Name</th>
-            <th>Win+Tie Rate</th>
-            <th>Length</th>
+            <th>Win & Tie Rate Vs GT</th>
             <th>Uni-Eval(N=16)</th>
             <th>Uni-Eval(N=8)</th>
             <th>ELO(N=16)</th>
             <th>ELO(N=8)</th>
+            <th>Length</th>
         </tr>
     </table>
 
@@ -214,33 +207,21 @@
         <h2>About BotChat</h2>
         <p>
             <a href="https://github.com/open-compass/BotChat" target="_blank">BotChat</a>
-            an LLM-based automatic evaluation that is fast, cheap, and reliable.
-            It is based on the
-            <a href="https://crfm.stanford.edu/2023/05/22/alpaca-farm.html">AlpacaFarm</a>
-            evaluation set,
-            which tests the ability of models to follow general user instructions.
-            These responses are then compared to reference Davinci003 responses by
-            the provided GPT-4 or Claude or ChatGPT based auto-annotators,
-            which results in the win rates presented above.
-            AlpacaEval displays a high agreement rate with ground truth human annotations,
-            and leaderboard rankings on AlpacaEval are very correlated with leaderboard rankings
-            based on human annotators.
-            Please see our
-            <a href="https://github.com/tatsu-lab/alpaca_eval#analysis" target="_blank">documentation</a>
-            for more details on our analysis.
+            evaluates LLMs's Capabilities of Having Multi-Turn Dialogues.
+            We begin with real-world human dialogues and then prompt Language Models to generate full multi-turn dialogues, 
+            one utterance at a time. These results are subsequently evaluated by state-of-the-art Language Models such as GPT-4. 
+            For more in-depth information, please refer to our 
+            <a href="https://github.com/open-compass/BotChat" target="_blank">documentation</a>.
         </p>
-        <h2>AlpacaEval limitations</h2>
+        <h2>Leaderboard Metrics</h2>
         <p>
-            While AlpacaEval provides a useful comparison of model capabilities in following instructions,
-            it is not a comprehensive or gold-standard evaluation of model abilities.
-            For one, as detailed in the
-            <a href="https://arxiv.org/abs/2305.14387" target="_blank">AlpacaFarm paper</a>,
-            the auto annotator winrates are correlated with length.
-            Though human annotations also display this bias,
-            it is unclear if more verbose answers add utility in downstream tasks.
-            Additionally, the AlpacaFarm eval set, though diverse, consists mainly of simple instructions.
-            We encourage the community to contribute new, more complex eval sets, such as for tool use.
-            Finally, AlpacaEval does not evaluate the safety of any of the models.
+            We provide three different evaluation protocols:
+            <ul>
+                <li><b>GTEval</b>: A comparison of the generated conversations with "Ground Truth" conversations (Gold Standard). </li>
+                <li><b>UniEval</b>: Independent evaluation of each generated dialogue. </li>
+                <li><b>Arena ELO</b>: Comparative evaluation of responses from two distinct models. </li>
+            </ul>
+            In <b>UniEval</b> and <b>Arena ELO</b>, 'N' indicates the number of rounds of dialogue in each conversation.
         </p>
     </div>
 
@@ -304,16 +285,16 @@
                             lengthTd.textContent = Math.round(Number(row['Length'])).toString() ;
                             UE16.textContent = Number(row['Uni_Eval_16']).toFixed(2) + '%';
                             UE8.textContent = Number(row['Uni_Eval_8']).toFixed(2) + '%';
-                            ELO16.textContent = Number(row['ELO_16']).toFixed(2) + '%';
-                            ELO8.textContent = Number(row['ELO_8']).toFixed(2) + '%';
+                            ELO16.textContent = Number(row['ELO_16']).toFixed(2);
+                            ELO8.textContent = Number(row['ELO_8']).toFixed(2);
 
                             tr.appendChild(nameTd);
                             tr.appendChild(winRateTd);
-                            tr.appendChild(lengthTd);
                             tr.appendChild(UE16);
                             tr.appendChild(UE8);
                             tr.appendChild(ELO8);
                             tr.appendChild(ELO16);
+                            tr.appendChild(lengthTd);
 
                             table.appendChild(tr);
                         }
